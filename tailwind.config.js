@@ -6,8 +6,13 @@ export default {
   ],
   theme: {
     extend: {
+      fontSize:{
+        normal:'0.95rem'
+      },
       colors:{
-        'border-color':'#ebebeb'
+        'border-color':'#ebebeb',
+        'primary':'#195bb0',
+        'muted':'#626262'
       }
     },
   },

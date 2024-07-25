@@ -2,8 +2,8 @@
   <main class="flex min-h-screen flex-row bg-gray-100 text-gray-800">
       <Sidebar/>
       <div class="flex flex-col w-full">
-          <Topbar/>
-          <div class="main -ml-48 flex flex-grow flex-col p-4 transition-all duration-150 ease-in md:ml-0">
+<!--          <Topbar/>-->
+          <div class="main -ml-48 flex flex-grow flex-col transition-all duration-150 ease-in md:ml-0">
               <router-view />
           </div>
       </div>

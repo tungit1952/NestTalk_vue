@@ -3,3 +3,27 @@
 @tailwind components;
 @tailwind utilities;
 
+.box-fill-chat {
+    border: none;
+    outline: none;
+    resize: none;
+    overflow-y: auto;
+}
+.box-fill-chat::-webkit-scrollbar {
+    width: 0;
+}
+
+.box-fill-chat {
+    scrollbar-width: none;
+    max-height: 500px;
+}
+
+.box-fill-chat {
+    -ms-overflow-style: none;
+}
+.box-control-chat{
+    padding: 0.5rem 1.25rem;
+    background: white;
+    justify-content: space-between;
+    max-height: 500px;
+}
