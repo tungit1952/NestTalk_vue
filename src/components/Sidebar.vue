@@ -1,7 +1,7 @@
 <template>
     <div class="sidebar w-64 -translate-x-full transform bg-white p-4 transition-transform duration-150 ease-in md:translate-x-0 border-[#243c5a] md:shadow-md">
-        <div class="my-4 w-full text-center">
-            <span class="font-mono text-xl font-bold tracking-widest">LOGO</span>
+        <div class="my-1 w-full flex justify-center">
+          <img width="180px" src="/src/assets/images/logo.png" alt="logo">
         </div>
         <div class="my-4"></div>
         <nav class="flex flex-col gap-1 min-w-[240px] p-2 font-sans text-base font-normal text-gray-700">
