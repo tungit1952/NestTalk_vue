@@ -6,8 +6,10 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
-const app = createApp(App)
+import {axiosConfig} from '../src/plugins/axios.js';
 
+const app = createApp(App)
+app.config.globalProperties.$axios = axiosConfig
 app.use(createPinia())
 app.use(router)
 
