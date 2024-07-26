@@ -1,4 +1,6 @@
 import './assets/main.css'
+import 'ant-design-vue/dist/reset.css';
+
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -6,11 +8,14 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
-import {axiosConfig} from '../src/plugins/axios.js';
+import Ant from 'ant-design-vue';
+
 
 const app = createApp(App)
-app.config.globalProperties.$axios = axiosConfig
 app.use(createPinia())
 app.use(router)
+app.use(Ant);
 
 app.mount('#app')
+
+app.config.globalProperties.$message = notification;
