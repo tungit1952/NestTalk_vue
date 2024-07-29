@@ -131,7 +131,8 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {useUserStore} from "@/stores/user";
-import { ToastProgrammatic as Toast } from 'V'
+import {useRouter} from "vue-router";
+const router = useRouter();
 const userStore = useUserStore();
 
 const formLogin = ref({
@@ -140,11 +141,8 @@ const formLogin = ref({
 })
 const submitLogin = async () => {
     const response = await userStore.login(formLogin.value)
-  $message['success']({
-    message: 'Notification Title',
-    description:
-        'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-  });
-
+    if(response){
+      router.push({name:'Home'})
+    }
 }
 </script>

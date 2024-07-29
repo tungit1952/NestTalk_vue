@@ -18,4 +18,3 @@ app.use(Ant);
 
 app.mount('#app')
 
-app.config.globalProperties.$message = notification;
