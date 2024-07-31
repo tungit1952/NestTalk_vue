@@ -38,11 +38,12 @@
           </MenuItem>
         </form>
       </Dropdown>
-      <button type="button"
+      <button @click="showModalCreate" type="button"
               class="inline-flex  justify-center text-white font-semibold text-sm bg-primary px-4 py-2 rounded-md hover:bg-primary-hover">
         Add Project
       </button>
     </div>
+    <CreateModal :visible="visibleCreateModal" @closeModal="closeModalCreate" />
   </div>
   <div class="bg-white p-4">
     <div v-for="project in projects" :key="project.id" class="flex items-center border-b border-gray-200 py-4 justify-between pr-3">
@@ -80,14 +81,15 @@
 
       </div>
     </div>
-
   </div>
 </template>
 <script setup lang="ts">
 import Dropdown from "../../components/Dropdown.vue";
+import CreateModal from "../../components/project/CreateModal.vue";
 import {MenuItem} from "@headlessui/vue";
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline'
 import { LinkIcon } from '@heroicons/vue/24/outline'
+import {ref} from "vue";
 const projects = [
   {
     id: 1,
@@ -117,4 +119,12 @@ const projects = [
     updated: 'Dự án phát triển giải pháp quản lý công việc theo team, tối ưu thời gian...'
   },
 ]
+
+const visibleCreateModal = ref<boolean>(false)
+const showModalCreate = () => {
+  visibleCreateModal.value = true
+}
+const closeModalCreate= (value: Boolean) => {
+  if (value) visibleCreateModal.value = false
+}
 </script>
