@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import MainLayout from "@/layouts/MainLayout.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import Login from "@/views/auth/Login.vue";
+import Project from "@/views/project/index.vue";
 import {useUserStore} from "@/stores/user"
 
 const router = createRouter({
@@ -29,6 +30,11 @@ const router = createRouter({
           path: '/',
           name: 'Home',
           component:HomeView
+        },
+        {
+          path: '/projects',
+          name: 'Project',
+          component:Project
         }
       ]
     },

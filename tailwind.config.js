@@ -12,6 +12,7 @@ export default {
       colors:{
         'border-color':'#ebebeb',
         'primary':'#195bb0',
+        'primary-hover':'#125cbd',
         'muted':'#626262'
       }
     },
