@@ -4,7 +4,9 @@
       <div class="flex flex-col w-full">
 <!--          <Topbar/>-->
           <div class="main -ml-48 flex flex-grow flex-col transition-all duration-150 ease-in md:ml-0">
+            <a-config-provider :theme="{token: { colorPrimary: '#195bb0'}}">
               <router-view />
+            </a-config-provider>
           </div>
       </div>
   </main>

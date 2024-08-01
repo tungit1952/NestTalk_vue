@@ -5,6 +5,8 @@ import AuthLayout from "@/layouts/AuthLayout.vue";
 import Login from "@/views/auth/Login.vue";
 import Project from "@/views/project/index.vue";
 import Form from "@/views/form/index.vue";
+import FormDetail from "@/views/form/detail.vue";
+import Request from "@/views/request/index.vue";
 import {useUserStore} from "@/stores/user"
 
 const router = createRouter({
@@ -36,6 +38,16 @@ const router = createRouter({
           path: '/form',
           name: 'Form',
           component:Form
+        },
+        {
+          path: '/form/:id',
+          name: 'Form_Detail',
+          component:FormDetail
+        },
+        {
+          path: '/request',
+          name: 'Request',
+          component:Request
         }
       ]
     },
