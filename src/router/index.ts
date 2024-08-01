@@ -4,6 +4,7 @@ import MainLayout from "@/layouts/MainLayout.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import Login from "@/views/auth/Login.vue";
 import Project from "@/views/project/index.vue";
+import Form from "@/views/form/index.vue";
 import {useUserStore} from "@/stores/user"
 
 const router = createRouter({
@@ -32,9 +33,9 @@ const router = createRouter({
           component:HomeView
         },
         {
-          path: '/projects',
-          name: 'Project',
-          component:Project
+          path: '/form',
+          name: 'Form',
+          component:Form
         }
       ]
     },
