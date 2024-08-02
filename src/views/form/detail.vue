@@ -5,12 +5,12 @@
   </div>
   <div class="flex h-[calc(100vh-70px)] ">
     <ControlDetail/>
-<!--    <Field />-->
-    <Detail/>
+    <Field />
+<!--    <Detail/>-->
   </div>
 </template>
 <script setup lang="ts">
-import {MenuItem} from "@headlessui/vue/dist";
+import {MenuItem} from "@headlessui/vue";
 import ControlDetail from "@/components/form/ControlDetail.vue";
 import Field from "@/components/form/Field.vue";
 import Detail from "@/components/form/Detail.vue";

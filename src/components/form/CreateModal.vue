@@ -8,14 +8,15 @@
           <label class="font-medium">Tên nhóm đề xuất*:</label>
           <p class="text-gray-500 tracking-tight text-xs">Tên nhóm đề xuất</p>
         </div>
-        <input type="text" class="block border-gray-300  placeholder-gray-500 bg-transparent h-10 text-sm placeholder-custom-text-400 focus:outline-none rounded-md border-[0.5px] border-custom-border-200 px-3 py-2 w-full focus:border-primary" placeholder="Tên nhóm đề xuất">
+        <input v-model="formData.name" type="text" class="block border-gray-300  placeholder-gray-500 bg-transparent h-10 text-sm placeholder-custom-text-400 focus:outline-none rounded-md border-[0.5px] border-custom-border-200 px-3 py-2 w-full focus:border-primary" placeholder="Tên nhóm đề xuất">
       </div>
       <div class="flex gap-10 mb-3">
         <div class="w-1/3 ">
           <label class="font-medium">Người xét duyệt:</label>
           <p class="text-gray-500 tracking-tight text-xs">Một đề xuất chỉ được xét duyệt nếu tất cả thành viên đồng ý.</p>
         </div>
-        <input type="text" class="block border-gray-300  placeholder-gray-500 bg-transparent h-10 text-sm placeholder-custom-text-400 focus:outline-none rounded-md border-[0.5px] border-custom-border-200 px-3 py-2 w-full focus:border-primary" placeholder="Tên nhóm đề xuất">
+        <Mentions/>
+
       </div>
       <div class="flex gap-10 mb-3">
         <div class="w-1/3 ">
@@ -63,7 +64,7 @@
             <label class="font-medium">Category:</label>
             <p class="text-gray-500 tracking-tight text-xs">Phân loại nhóm.</p>
           </div>
-          <input type="text" class="block border-gray-300  placeholder-gray-500 bg-transparent h-10 text-sm placeholder-custom-text-400 focus:outline-none rounded-md border-[0.5px] border-custom-border-200 px-3 py-2 w-full focus:border-primary"
+          <input v-model="formData.category" type="text" class="block border-gray-300  placeholder-gray-500 bg-transparent h-10 text-sm placeholder-custom-text-400 focus:outline-none rounded-md border-[0.5px] border-custom-border-200 px-3 py-2 w-full focus:border-primary"
                  placeholder="Phân loại (ví dụ: Phòng KD, Phòng kế toán">
         </div>
         <div class="flex gap-10 mb-3">
@@ -71,7 +72,7 @@
             <label class="font-medium">Thời hạn (SLA):</label>
             <p class="text-gray-500 tracking-tight text-xs">Số giờ quy định để xử lý đề xuất này. Để trống nếu bạn không có yêu cầu cụ thể.</p>
           </div>
-          <input type="text" class="block border-gray-300  placeholder-gray-500 bg-transparent h-10 text-sm placeholder-custom-text-400 focus:outline-none rounded-md border-[0.5px] border-custom-border-200 px-3 py-2 w-full focus:border-primary"
+          <input v-model="formData.sla" type="number" class="block border-gray-300  placeholder-gray-500 bg-transparent h-10 text-sm placeholder-custom-text-400 focus:outline-none rounded-md border-[0.5px] border-custom-border-200 px-3 py-2 w-full focus:border-primary"
                  placeholder="Vui lòng điền số giờ tối đa quy định để hoàn thành xử lý đề xuất này.">
         </div>
         <div class="flex gap-10 mb-3">
@@ -79,7 +80,7 @@
             <label class="font-medium">Sử dụng cho:</label>
             <p class="text-gray-500 tracking-tight text-xs">Nhóm-bộ phận chức năng có thể tạo đề xuất.</p>
           </div>
-          <input type="text" class="block border-gray-300  placeholder-gray-500 bg-transparent h-10 text-sm placeholder-custom-text-400 focus:outline-none rounded-md border-[0.5px] border-custom-border-200 px-3 py-2 w-full focus:border-primary"
+          <input v-model="formData.group_id" type="text" class="block border-gray-300  placeholder-gray-500 bg-transparent h-10 text-sm placeholder-custom-text-400 focus:outline-none rounded-md border-[0.5px] border-custom-border-200 px-3 py-2 w-full focus:border-primary"
                  placeholder="Vui lòng điền số giờ tối đa quy định để hoàn thành xử lý đề xuất này.">
         </div>
         <div class="flex gap-10 mb-3">
@@ -116,9 +117,23 @@ import {ref, watch} from 'vue';
 import Dropdown from "../../components/Dropdown.vue";
 import { CameraIcon } from '@heroicons/vue/24/outline'
 import {MenuItem} from "@headlessui/vue";
+import Mentions from "@/components/Mentions.vue";
 const visibleModal = ref<boolean>(false);
 const is_advanced = ref<boolean>(false);
 const fileInputRef = ref<HTMLInputElement | null>(null);
+const formData = ref<any>({
+  name:'',
+  is_notify_manager:0,
+  procedure:1,
+  is_advanced:0,
+  category:'',
+  group_id:0,
+  approver:[],
+  watcher:[],
+  sla:null,
+  description:'',
+  status:0,
+})
 const props = defineProps({
   visible: {
     type: Boolean,

@@ -9,13 +9,10 @@
       </div>
       <Dropdown class="w-full justify-end h-10">
         <template class="font-bold" #title>
-          <span>Số nguyên</span>
+          <span>{{titleType}}</span>
         </template>
-        <MenuItem class="w-36" v-slot="{ active }">
-          <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Không</a>
-        </MenuItem>
-        <MenuItem class="w-36" v-slot="{ active }">
-          <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Có</a>
+        <MenuItem @click="selectedField" v-for="(item,index) in eField" class="w-36" :label="item.label" :value="item.value" v-slot="{ active }">
+          <a href="#" class="w-full" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">{{item.label}}</a>
         </MenuItem>
       </Dropdown>
     </div>
@@ -39,7 +36,7 @@
         <template class="font-bold" #title>
           <span>Không, không bắt buộc</span>
         </template>
-        <MenuItem class="w-36" v-slot="{ active }">
+        <MenuItem  class="w-36" v-slot="{ active }">
           <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Không</a>
         </MenuItem>
         <MenuItem class="w-36" v-slot="{ active }">
@@ -64,8 +61,22 @@ import {ref, watch} from 'vue';
 import Dropdown from "../../components/Dropdown.vue";
 import { CameraIcon } from '@heroicons/vue/24/outline'
 import {MenuItem} from "@headlessui/vue";
+import {eField} from "@/enum/fields";
+
 const visibleModal = ref<boolean>(false);
 const is_advanced = ref<boolean>(false);
+const formData = ref<any>({
+  form_id:0,
+  type:1,
+  label:'',
+  description:'',
+  is_required:false,
+  data:'',
+  status:1,
+  key:'',
+  order:0
+});
+const titleType = ref<string>('Số nguyên');
 const fileInputRef = ref<HTMLInputElement | null>(null);
 const props = defineProps({
   visible: {
@@ -83,14 +94,13 @@ watch(
 const emit = defineEmits(["closeModalField"])
 const handleCancel = () => {
   is_advanced.value = false
+  titleType.value = ''
   return emit('closeModalField', true)
 };
-const triggerFileInput = () => {
-  const fileInput = fileInputRef.value;
-  if (fileInput) {
-    fileInput.click();
-  }
-};
+const selectedField = (e) => {
+  titleType.value = e.target.getAttribute('label')
+  formData.value.type = e.target.getAttribute('value')
+}
 
 
 </script>
