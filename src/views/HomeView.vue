@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { RiLinksLine, RiEmojiStickerLine } from "vue-remix-icons";
+import { ref, onMounted } from 'vue'
+import {socket} from "@/socket.js"
 
+onMounted(() => {
+  socket.connect();
+  socket.emit('createChat', 'Hế lô');
+})
 const autoResizeBoxFillChat = (event: Event) => {
   const textarea = event.target as HTMLTextAreaElement;
   textarea.style.height = 'auto';
