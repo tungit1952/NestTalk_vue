@@ -7,6 +7,7 @@ import Project from "@/views/project/index.vue";
 import Form from "@/views/form/index.vue";
 import FormDetail from "@/views/form/detail.vue";
 import Request from "@/views/request/index.vue";
+import Message from "@/views/message/index.vue";
 import Group from "@/views/group/index.vue";
 import {useUserStore} from "@/stores/user"
 
@@ -34,6 +35,11 @@ const router = createRouter({
           path: '/',
           name: 'Home',
           component:HomeView
+        },
+        {
+          path: '/message',
+          name: 'Message',
+          component:Message
         },
         {
           path: '/form',
