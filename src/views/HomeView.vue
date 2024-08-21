@@ -65,7 +65,10 @@ import Message from "ant-design-vue/es/message";
 
 onMounted(() => {
   socket.connect();
-  socket.emit('createChat', 'Hế lô');
+  socket.emit('joinRoom',3 );
+  socket.on('message.new', (data : any) => {
+    console.log(data);
+  });
 
   fetchListUser()
 })
