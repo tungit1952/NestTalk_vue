@@ -14,4 +14,12 @@
 <script setup>
 import Sidebar from "@/components/Sidebar.vue";
 import Topbar from "@/components/Topbar.vue";
+import {onMounted} from "vue";
+import {socket} from "@/socket.js";
+onMounted(() => {
+  const token = localStorage.getItem('token')
+  if(token){
+    socket.io.open()
+  }
+})
 </script>

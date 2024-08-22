@@ -19,7 +19,8 @@
 
     <!-- Messages -->
     <div class="flex-1 p-4 overflow-y-auto">
-      <div v-for="(message,index) of currentMessages" :key=index v-if="!isNewRoom">
+      <div class="relative pl-[3rem]"  v-for="(message,index) of messagesData" :key=index v-if="!isNewRoom">
+        <img v-if="(message[0]?.createdBy?.id === user.id)" :src="user?.avatar" alt="User" class="w-8 h-8 mb-1 rounded-full mr-2 absolute bottom-0 left-0">
         <div  v-for="(i,index) of message"
              :class="(message[0]?.createdBy?.id !== user.id) ?'flex justify-end':'justify-start'"
              class="flex mb-4">
@@ -54,15 +55,18 @@ import type {PropType} from "vue";
 import {onMounted, ref, watch} from "vue";
 import {api} from "@/api";
 import {socket} from "@/socket";
+
 const props = defineProps({
   user: {
     type: Object as PropType<User>,
   }
 })
 onMounted(() => {
-  socket.connect();
-  socket.on('message.new', (data : any) => {
+  socket.connect()
+  socket.on('message.new', (data: any) => {
     console.log(data);
+    currentMessages.value.push(data)
+    messagesData.value = groupMessages(currentMessages.value);
   });
 })
 
@@ -77,8 +81,6 @@ watch(
       if(!isNewRoom.value){
         message.value.roomId = checkRoom.data.data.id
         currentRoom.value = checkRoom.data.data.id
-        socket.emit('joinRoom',6 );
-        console.log('vào room: ' + currentRoom.value)
         await fetchList(1)
       }
     }
@@ -87,15 +89,12 @@ const groupMessages = (messages, timeLimit = 5 * 60 * 1000) => { // timeLimit: 5
   let groupedMessages = [];
   let currentGroup = [];
   let lastMessageTime = 0;
-
   messages.forEach((message, index) => {
     const messageTime = new Date(message.createdAt).getTime();
-
     if (index === 0) {
       currentGroup.push(message);
     } else {
       const timeDifference = messageTime - lastMessageTime;
-
       if (message.createdBy.id === currentGroup[0].createdBy.id && timeDifference <= timeLimit) {
         currentGroup.push(message);
       } else {
@@ -103,14 +102,11 @@ const groupMessages = (messages, timeLimit = 5 * 60 * 1000) => { // timeLimit: 5
         currentGroup = [message];
       }
     }
-
     lastMessageTime = messageTime;
   });
-
   if (currentGroup.length > 0) {
     groupedMessages.push(currentGroup);
   }
-
   return groupedMessages;
 };
 const adjustBoxControlChatHeight = (textarea: HTMLTextAreaElement) => {
@@ -154,29 +150,31 @@ const handleInput = (event: Event) => {
 };
 
 const currentMessages = ref([])
+const messagesData = ref([])
 const fetchList = async (page = 1) => {
     if(currentRoom.value){
      try {
        const response = await api.message.find(currentRoom.value, page)
        if(response.status == 200){
-         const newMessages = groupMessages(response.data.data.messages.reverse());
+         currentMessages.value = response.data.data.messages.reverse()
+         const newMessages = groupMessages(currentMessages.value);
          if (page === 1) {
-           currentMessages.value = newMessages;
+           messagesData.value = newMessages;
          } else {
-           currentMessages.value.unshift(...newMessages);
+           messagesData.value.unshift(...newMessages);
          }
-         console.log(currentMessages.value)
        }
      }catch (e){
        console.error(e)
      }
     }
 }
-const emit = defineEmits(["sendRoomId"])
  const sendMessage = async () => {
   if (message.value.content.trim()) {
     const response = await api.message.create(message.value)
-    emit('sendRoomId', currentRoom.value)
+    if(!message.value.roomId){
+
+    }
     if(response.data) message.value.content = ''
   }
 };
