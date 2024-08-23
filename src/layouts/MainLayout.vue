@@ -19,7 +19,7 @@ import {socket} from "@/socket.js";
 onMounted(() => {
   const token = localStorage.getItem('token')
   if(token){
-    socket.io.open()
+    socket.connect()
   }
 })
 </script>

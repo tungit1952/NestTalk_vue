@@ -6,5 +6,13 @@ export default ($axios) => ({
                 }
             }
         )
+    },
+    list(params : {}){
+        return $axios.get('/room-chat/list',{
+            headers: {
+                Authorization:'Bearer ' + window.localStorage.getItem('token'),
+            },
+            params: params,
+        })
     }
 })

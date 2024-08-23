@@ -12,8 +12,9 @@
     <div class="flex items-center p-4 border-b">
       <img :src="user?.avatar" alt="User" class="w-10 h-10 rounded-full mr-2">
       <div>
-        <div class="font-bold">{{user.firstName}} {{user.lastName}}</div>
-        <div class="text-sm text-green-500">Online</div>
+        <div class="font-bold">{{user?.firstName}} {{user?.lastName}}</div>
+        <div v-if="props.online?.includes(user?.id)" class="text-sm text-green-500">Online</div>
+        <div v-else class="text-sm text-gray-500">Offline</div>
       </div>
     </div>
 
@@ -33,7 +34,7 @@
                v-html="formatMessageContent(message.content)"></div>
         </div>
       </div>
-      <div class="h-1 bg-primary" ref="endOfMessages"></div>
+      <div ref="endOfMessages"></div>
     </div>
 
     <!-- Input -->
@@ -70,8 +71,12 @@ import {formatDateChat} from '../../utils'
 const props = defineProps({
   user: {
     type: Object as PropType<User>,
+  },
+  online:{
+    type: Array
   }
 })
+
 onMounted(() => {
   const div = document.getElementById('editableDiv') as HTMLDivElement;
   if (div) {
@@ -110,6 +115,7 @@ watch(
       }
     }
 )
+
 const groupMessages = (messages, timeLimit = 30 * 60 * 1000) => {
   let groupedMessages = [];
   let currentGroup = [];
