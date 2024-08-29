@@ -18,5 +18,10 @@ COPY . .
 # build app for production with minification
 RUN npm run build-only
 
-EXPOSE 8080
-CMD [ "http-server", "dist" ]
+FROM nginx:alpine
+
+COPY --from=build /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

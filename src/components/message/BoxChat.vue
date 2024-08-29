@@ -30,7 +30,7 @@
              :class="(message.createdBy.id !== user.id) ? 'flex justify-end' : 'justify-start'"
              class="flex mb-4">
           <div class="p-3 rounded-lg max-w-xs"
-               :class="(message.createdBy.id !== user.id) ? 'bg-blue-500 text-white' : 'relative bg-white'"
+               :class="(message.createdBy.id !== user.id) ? 'bg-primary text-white' : 'relative bg-white'"
                v-html="formatMessageContent(message.content)"></div>
         </div>
       </div>
@@ -40,7 +40,8 @@
     <!-- Input -->
     <div class="flex box-control-chat items-center">
       <div class="relative flex w-full h-full">
-        <RiLinksLine class="size-6 cursor-pointer text-muted font-medium w-8 hover:text-primary self-center" />
+        <RiLinksLine @click="triggerFileInput" class="size-6 cursor-pointer text-muted font-medium w-8 hover:text-primary self-center" />
+        <input type="file" ref="fileInput" class="hidden" @change="handleFileSelect" />
         <div
             id="editableDiv"
             class="editable-div"
@@ -223,4 +224,23 @@ const message = ref<Message>({
   roomId: null,
   receiverId: null
 });
+
+const fileInput = ref<HTMLInputElement | null>(null);
+
+const triggerFileInput = () => {
+  fileInput.value?.click();
+};
+
+const handleFileSelect = async (event: Event) => {
+  const input = event.target as HTMLInputElement;
+  const file = input.files ? input.files[0] : null;
+
+  if (file) {
+    await sendFile(file);
+  }
+};
+
+const sendFile = async (file: File) => {
+  console.log('send file')
+};
 </script>

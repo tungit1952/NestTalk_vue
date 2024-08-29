@@ -12,7 +12,7 @@
             <img :src="item.avatar" alt="User" class="object-cover w-10 h-10 rounded-full mr-2">
             <div>
               <div class="font-bold">{{ item.firstName }} {{ item.lastName }}</div>
-              <div class="text-sm text-gray-500">{{ item?.lastMessage }}</div>
+              <div class="text-sm text-gray-500 one-line">{{ item?.lastMessage }}</div>
             </div>
           </div>
           <RiCircleFill v-if="usersOnline.includes(item.id)" class="w-3 h-3 text-green-500"></RiCircleFill>
@@ -36,12 +36,17 @@
     </div>
 
     <!-- Chat Area -->
-    <BoxChat :online="usersOnline" :user="userFocus" @sendRoomId="getRoomId"/>
+    <BoxChat 
+      :online="usersOnline" 
+      :user="userFocus" 
+      @sendRoomId="getRoomId"
+      ref="boxChatRef"
+    />
   </div>
 </template>
 <script setup lang="ts">
 import {RiCommunityLine, RiTeamLine, RiMessage2Line, RiCircleFill} from "vue-remix-icons";
-import {ref, onMounted, watch} from 'vue'
+import {ref, onMounted, watch, nextTick} from 'vue'
 import {socket} from "@/socket.js";
 import {api} from "@/api";
 import Message from "ant-design-vue/es/message";
@@ -50,6 +55,7 @@ import type {User} from "@/dataType";
 
 let usersOnline = ref([])
 onMounted(() => {
+  fetchRoomsByUser();
   socket.on('getUsersOnline' , (data:any) => {
     usersOnline.value = data
   });
@@ -130,6 +136,7 @@ const fetchRoomsByUser = async (page: number = 1) => {
   }
 };
 const userFocus = ref<User>({})
+const boxChatRef = ref<InstanceType<typeof BoxChat> | null>(null)
 const focusChat = (user: User) => {
   userFocus.value = user
 }
@@ -137,4 +144,11 @@ const focusChat = (user: User) => {
 const getRoomId = (roomId: number) => {
   console.log('vào room: ' + roomId)
 }
+
+watch(userFocus, () => {
+  // Đợi cho DOM cập nhật
+  nextTick(() => {
+    boxChatRef.value?.scrollToBottom()
+  })
+})
 </script>
